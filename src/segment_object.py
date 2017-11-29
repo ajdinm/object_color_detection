@@ -4,13 +4,14 @@ import numpy as np
 from scipy.stats import itemfreq
 from scipy import cluster
 from scipy.misc import fromimage
+from collections import Counter
 
 data_folder = '../data/'
 imgs = [('coke.jpg', [570, 330, 120, 400], 3),
         ('detergent.jpg', [545, 330, 220, 405], 3),
         ('palmolive_green.jpg', [580, 430, 130, 310], 3),
         ('red_cup.jpg', [570, 550, 145, 180], 3)]
-
+imgs[0], imgs[-1] = imgs[-1], imgs[0]
 # make rects bigger
 for i in range(len(imgs)):
     imgs[i][1][0] = imgs[i][1][0] - 50
@@ -23,18 +24,25 @@ for img in imgs:
     K = img[2]
     filename = data_folder + img[0]
     img = cv2.imread(filename)
-    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+    img = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+    img_o = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     x, y, w, h = rect
     img = img[y:y+h, x:x+w]
 
     original = np.array(img)
+    Z = img.reshape((-1,3))
+    hues = map(lambda x: x[0], Z)
+    print Counter(hues) 
+    plt.imshow(img_o)
+    plt.show()
+    break
 
     mask = np.zeros(img.shape[:2],np.uint8)
 
     bgdModel = np.zeros((1,65),np.float64)
     fgdModel = np.zeros((1,65),np.float64)
      
-    gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
+    gray = cv2.cvtColor(img,cv2.COLOR_BGR2HSV)
     ret, thresh = cv2.threshold(gray,0,255,cv2.THRESH_BINARY_INV+cv2.THRESH_OTSU)
 
     zero_indx = np.where(thresh==0)
