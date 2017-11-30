@@ -6,35 +6,65 @@ from scipy import cluster
 from scipy.misc import fromimage
 from collections import Counter
 
+def get_hue(x):
+    return x * 360.0 / 179.0
+
 data_folder = '../data/'
 imgs = [('coke.jpg', [570, 330, 120, 400], 3),
         ('detergent.jpg', [545, 330, 220, 405], 3),
         ('palmolive_green.jpg', [580, 430, 130, 310], 3),
         ('red_cup.jpg', [570, 550, 145, 180], 3)]
-imgs[0], imgs[-1] = imgs[-1], imgs[0]
+
 # make rects bigger
 for i in range(len(imgs)):
     imgs[i][1][0] = imgs[i][1][0] - 50
     imgs[i][1][1] = imgs[i][1][1] - 50
     imgs[i][1][2] = imgs[i][1][2] + 100
     imgs[i][1][3] = imgs[i][1][3] + 100
-
 for img in imgs:
     rect = img[1]
     K = img[2]
     filename = data_folder + img[0]
-    img = cv2.imread(filename)
-    img = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
-    img_o = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     x, y, w, h = rect
+    
+    img = cv2.imread(filename)
+    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     img = img[y:y+h, x:x+w]
+    
+    gray = cv2.cvtColor(img,cv2.COLOR_RGB2GRAY)
+    ret, thresh = cv2.threshold(gray,0,255,cv2.THRESH_BINARY_INV+cv2.THRESH_OTSU)
 
-    original = np.array(img)
+    zero_indx = np.where(thresh==0)
+    img[zero_indx] = [0, 0, 0]
+    
+    img = cv2.cvtColor(img, cv2.COLOR_RGB2HSV)
     Z = img.reshape((-1,3))
     hues = map(lambda x: x[0], Z)
-    print Counter(hues) 
+    hue_counter = Counter(hues)
+    del hue_counter[0]
+    print filename, get_hue(max(hue_counter, key=hue_counter.get))
+
+    continue
+
+    img_o = cv2.imread(filename)
+    img_o = cv2.cvtColor(img_o, cv2.COLOR_BGR2RGB)
+    img_o = img_o[y:y+h, x:x+w]
+
+
+    #print img_o[82, 200]
+    #print img[182, 200]
+    #color = cv2.cvtColor(np.uint8([[[213,31,150]]]),cv2.COLOR_RGB2HSV)
+    #print color[0][0]
+    #temp = [0, 0, 0]
+    #temp[0] = int(color[0][0][0]) * 360.0 / 176.0
+    #temp[1] = int(color[0][0][1]) * 100.0 / 255.0
+    #temp[2] = int(color[0][0][2]) * 100.0 / 255.0
+
+    #print temp
     plt.imshow(img_o)
-    plt.show()
+    #plt.show()
+    plt.imshow(cv2.cvtColor(img, cv2.COLOR_HSV2RGB))
+    #plt.show()
     break
 
     mask = np.zeros(img.shape[:2],np.uint8)
