@@ -5,6 +5,15 @@ from scipy.stats import itemfreq
 from scipy import cluster
 from scipy.misc import fromimage
 from collections import Counter
+from sklearn.neural_network import MLPClassifier
+
+x = [[255, 0, 0], [0, 255, 0], [0, 0, 255], [255, 255, 0]]
+y = [[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]]
+clf = MLPClassifier(solver='lbfgs', alpha=1e-5,
+        hidden_layer_sizes=(5, 3), random_state=1)
+clf.fit(x, y)
+clf.predict([[255, 0, 10]])
+input()
 
 def get_hue(x):
     return x * 360.0 / 179.0
