@@ -13,7 +13,8 @@ def read_data():
     for (dirpath, dirnames, filenames) in walk(data_folder):
         files.extend(filenames)
         break
-    #files = map(lambda x: data_folder + x, files)
+
+#files = map(lambda x: data_folder + x, files)
     data = []
     for f in files:
         with open(data_folder + f) as csvfile:
@@ -27,6 +28,7 @@ def read_data():
     return data
 
 def color_lookup(color_name):
+    lookup = dict()
     lookup['red'] = [1, 0, 0, 0]
     lookup['green'] = [0, 1, 0, 0]
     lookup['yellow'] = [0, 0, 1, 0]
@@ -68,14 +70,15 @@ def get_train_validation_data():
     x = []
     y = []
     for i in range(len(color_names)):
-        x = x + colors[i][:min_len]
-        y = y + [color_names[i]] * min_len
+        x = x + colors[i]
+        y = y + [color_names[i]] * len(colors[i])
 
     x = map(lambda xi: normalize_rgb(xi[1]), x) # put everything in [0, 1] range
     y = map(lambda yi: color_lookup(yi), y)
      
     validation_x = []
     validation_y = []
+    
     for i in range(len(color_names)):
         validation_x = validation_x + colors[i][min_len:]
         validation_y = validation_y + [color_names[i]] * (len(colors[i]) - min_len)
@@ -92,6 +95,8 @@ def train_classifier():
     train_x, train_y, valid_x, valid_y = get_train_validation_data()
 
     clf.fit(train_x, train_y)
+    save_classifier(clf)
+    #valid_x = []
     #acc = map(lambda i, j: same_vector(i, j), clf.predict(valid_x), valid_y)
     #print acc.count(True) / float(len(acc))
 

@@ -1,24 +1,16 @@
+import cv2
+from matplotlib import pyplot as plt
 def  plot_img():
+
+        filename = '/home/ajdin/workspace/object_color_detection/dataset/blue/NP1_0.jpg'
         img_o = cv2.imread(filename)
         img_o = cv2.cvtColor(img_o, cv2.COLOR_BGR2RGB)
-        img_o = img_o[y:y+h, x:x+w]
+        #img_o = img_o[y:y+h, x:x+w]
 
 
-        #print img_o[82, 200]
-        #print img[182, 200]
-        #color = cv2.cvtColor(np.uint8([[[213,31,150]]]),cv2.COLOR_RGB2HSV)
-        #print color[0][0]
-        #temp = [0, 0, 0]
-        #temp[0] = int(color[0][0][0]) * 360.0 / 176.0
-        #temp[1] = int(color[0][0][1]) * 100.0 / 255.0
-        #temp[2] = int(color[0][0][2]) * 100.0 / 255.0
-
-        #print temp
         plt.imshow(img_o)
-        #plt.show()
-        plt.imshow(cv2.cvtColor(img, cv2.COLOR_HSV2RGB))
-        #plt.show()
-        break
+        plt.show()
+        return
 
         mask = np.zeros(img.shape[:2],np.uint8)
 
@@ -64,3 +56,4 @@ def  plot_img():
         plt.imshow(res2)
         
         plt.show()
+plot_img()
