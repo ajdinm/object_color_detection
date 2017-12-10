@@ -65,7 +65,6 @@ def predict():
     y = map(lambda yi: yi[0], results)
     clf = classifier.load_classifier()
     predictions = map(lambda x: classifier.reverse_lookup(x), clf.predict(x))
-    print filter(lambda x: x == None, predictions), 'test'
     predictions = map(lambda i: [predictions[i], y[i], results[i]], range(len(y)))
     failed_predictions = filter(lambda x: x[0] != x[1], predictions)
     print failed_predictions
