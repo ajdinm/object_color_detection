@@ -27,13 +27,21 @@ def read_data():
     return data
 
 def color_lookup(color_name):
-    lookup = dict()
     lookup['red'] = [1, 0, 0, 0]
     lookup['green'] = [0, 1, 0, 0]
     lookup['yellow'] = [0, 0, 1, 0]
     lookup['blue'] = [0, 0, 0, 1]
 
     return lookup[color_name]
+
+def reverse_lookup(predicted):
+    lookup = [['red', [1, 0, 0, 0]], ['green', [0, 1, 0, 0]], ['yellow', [0, 0, 1, 0]], ['blue', [0, 0, 0, 1]]]
+    predicted = list(predicted)
+    for x in lookup:
+        if x[1] == predicted:
+            return x[0]
+
+    return None
 
 def same_vector(x, y):
     for i in range(len(x)):
