@@ -46,7 +46,7 @@ def get_imgs():
     #    imgs[i][1][3] = imgs[i][1][3] + 100
     return img_paths
 
-def predict():
+def predict_imgs():
 
     imgs = get_imgs()
     results = []
@@ -69,6 +69,22 @@ def predict():
     failed_predictions = filter(lambda x: x[0] != x[1], predictions)
     print failed_predictions
     print 'accuracy', 1 - float(len(failed_predictions)) / len(predictions)
+
+def predict(filename):
+
+    
+    x, y, w, h = [131, 3, 200, 400]
+    
+    img = cv2.imread(filename)
+    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+    img = img[y:y+h, x:x+w] # get only relevant portion of the image
+    plt.imshow(img)
+    plt.show()
+        
+    result = [colorsys.hsv_to_rgb(get_dominant_color(img) / 360., 1, 0.5)]
+    clf = classifier.load_classifier()
+    prediction = classifier.reverse_lookup(clf.predict(result)[0])
+    print prediction
         
 def get_dominant_color(img):
         gray = cv2.cvtColor(img,cv2.COLOR_RGB2GRAY)
@@ -85,4 +101,4 @@ def get_dominant_color(img):
             del hue_counter[0]
         return get_hue(max(hue_counter, key=hue_counter.get))
 
-predict()
+predict('test.jpg')
