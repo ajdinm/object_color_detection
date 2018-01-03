@@ -73,11 +73,11 @@ def predict_imgs():
 def predict(filename):
 
     
-    x, y, w, h = [131, 3, 200, 400]
+    #x, y, w, h = [131, 3, 200, 400]
     
     img = cv2.imread(filename)
     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-    img = img[y:y+h, x:x+w] # get only relevant portion of the image
+    #img = img[y:y+h, x:x+w] # get only relevant portion of the image
     plt.imshow(img)
     plt.show()
         
@@ -101,4 +101,4 @@ def get_dominant_color(img):
             del hue_counter[0]
         return get_hue(max(hue_counter, key=hue_counter.get))
 
-predict('test.jpg')
+predict('../test.jpg')
