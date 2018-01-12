@@ -95,10 +95,10 @@ def train_classifier():
     train_x, train_y, valid_x, valid_y = get_train_validation_data()
 
     clf.fit(train_x, train_y)
-    save_classifier(clf)
-    #valid_x = []
-    #acc = map(lambda i, j: same_vector(i, j), clf.predict(valid_x), valid_y)
-    #print acc.count(True) / float(len(acc))
+    # save_classifier(clf)
+    # valid_x = 
+    acc = map(lambda i, j: same_vector(i, j), clf.predict(valid_x), valid_y)
+    print acc.count(True) / float(len(acc))
 
 
 def save_classifier(clf):
@@ -111,3 +111,5 @@ def load_classifier():
     with open(filename, 'rb') as class_file:
         return pickle.load(class_file)
     return None
+
+train_classifier()
