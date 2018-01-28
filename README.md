@@ -19,5 +19,5 @@ python main.py
 ```
 
 # Links
-[Dataset](https://drive.google.com/open?id=1unD2RfsPvZgDvCtZRKHFmHMxGVG41rwa) 
-[Paper](https://drive.google.com/open?id=1YfD8BPDGXeKL_RLEyROfzrzohUerjfNb) (in Bosnian)
+* [Dataset](https://drive.google.com/open?id=1unD2RfsPvZgDvCtZRKHFmHMxGVG41rwa) 
+* [Paper](https://drive.google.com/open?id=1YfD8BPDGXeKL_RLEyROfzrzohUerjfNb) (in Bosnian)
